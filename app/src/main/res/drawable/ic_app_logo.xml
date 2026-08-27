@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- tools/icon/build_icons.py 로 생성. 도형 좌표는 tools/icon/geom.py 에 있다. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M24,0 L84,0 A24,24 0 0 1 108,24 L108,84 A24,24 0 0 1 84,108 L24,108 A24,24 0 0 1 0,84 L0,24 A24,24 0 0 1 24,0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="54" android:startY="0"
+                android:endX="54" android:endY="108">
+                <item android:offset="0" android:color="#FFBFE6F9" />
+                <item android:offset="1" android:color="#FF6FB6DC" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- 뒤에 겹쳐진 사진 -->
+    <path android:fillColor="#D9A97F"
+        android:pathData="M41.18000000000001,17.55 L89.77,17.55 A4.73,4.73 0 0 1 94.5,22.28 L94.5,53.31999999999999 A4.73,4.73 0 0 1 89.77,58.05 L41.18000000000001,58.05 A4.73,4.73 0 0 1 36.45,53.31999999999999 L36.45,22.28 A4.73,4.73 0 0 1 41.18000000000001,17.55 Z" />
+    <!-- 앨범 표지 -->
+    <path android:fillColor="#6E4326"
+        android:pathData="M21.6,32.4 L81.0,32.4 A8.1,8.1 0 0 1 89.1,40.5 L89.1,86.4 A8.1,8.1 0 0 1 81.0,94.5 L21.6,94.5 A8.1,8.1 0 0 1 13.5,86.4 L13.5,40.5 A8.1,8.1 0 0 1 21.6,32.4 Z" />
+    <!-- 앨범 등 -->
+    <path android:fillColor="#54331E"
+        android:pathData="M25.65,32.4 L21.6,32.4 A8.1,8.1 0 0 0 13.5,40.5 L13.5,86.4 A8.1,8.1 0 0 0 21.6,94.5 L25.65,94.5 Z" />
+    <!-- 표지 안쪽 사진 -->
+    <path android:fillColor="#FAEFE0"
+        android:pathData="M32.4,43.2 L81.0,43.2 L81.0,85.05 L32.4,85.05 Z" />
+    <!-- 해 -->
+    <path android:fillColor="#E5A44F"
+        android:pathData="M39.43,56.02 A5.8,5.8 0 1 0 51.029999999999994,56.02 A5.8,5.8 0 1 0 39.43,56.02 Z" />
+    <!-- 산 -->
+    <path android:fillColor="#9C6239"
+        android:pathData="M32.4,85.05 L49.95,58.73 L61.42,72.9 L69.53,62.77 L81.0,85.05 Z" />
+</vector>

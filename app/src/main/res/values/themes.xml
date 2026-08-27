@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Compose 가 실제 색상을 담당하고, 이 테마는 창 배경과 상태바만 맞춘다. -->
+    <style name="Theme.MemoryHouse" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@color/album_background</item>
+        <item name="android:statusBarColor">@color/album_background</item>
+        <item name="android:navigationBarColor">@color/album_background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+</resources>

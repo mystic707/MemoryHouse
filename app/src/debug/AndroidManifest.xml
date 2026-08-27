@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  디버그 빌드에서만 평문 HTTP 를 허용한다.
+  로컬 모의 서버(http://10.0.2.2:8777)로 화면을 확인하기 위한 것이고, 릴리즈 빌드에는 적용되지 않는다.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:usesCleartextTraffic="true"
+        tools:ignore="UnusedAttribute" />
+
+</manifest>
