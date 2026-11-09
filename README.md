@@ -98,7 +98,63 @@ album1.folderId=1wxZd3VX_If795ps90BECODAXxcs2TYk8
 ./gradlew :app:assembleDebug
 ```
 
-가족에게 나눠줄 때는 릴리즈 서명 키로 `assembleRelease` 를 만들고, **그 키의 SHA-1 도 API 키 제한에 등록**한다. 릴리즈 키스토어를 분실하면 서명이 바뀌어 API 키 제한에 다시 걸리므로 잘 보관해야 한다.
+가족 배포는 Play Console **내부 테스트** 트랙으로 한다. 아래 "배포" 항목 참고.
+
+## 배포 (Play Console 내부 테스트)
+
+Play 스토어에 프로덕션으로 올리지 않고, **내부 테스트 트랙**으로만 가족에게 배포한다.
+APK 를 직접 나눠주는 것과 비교해 두 가지가 해결된다.
+
+- 설치할 때 "출처를 알 수 없는 앱" 설정을 켜지 않아도 된다 (Play 에서 설치되므로)
+- **Wi-Fi 자동 업데이트**가 동작한다. 새 빌드를 올리면 가족 단말이 알아서 받는다
+
+### 릴리즈 서명
+
+키스토어 파일은 계정 단위로 하나만 두고, 앱마다 alias 를 따로 만든다.
+파일 하나만 백업하면 되고, 앱 하나의 키를 바꿔도 다른 앱에 영향이 없다.
+Play App Signing 을 켜면 이 키는 **업로드 키**로만 쓰인다.
+
+```bash
+# 최초 1회. 이후 다른 앱은 같은 파일에 -alias 만 바꿔 추가한다.
+keytool -genkey -v -keystore ~/mysticagit-upload.jks -alias memoryhouse \
+        -keyalg RSA -keysize 2048 -validity 10000
+```
+
+`local.properties` 에 경로와 비밀번호를 넣는다(git 에 올라가지 않는다).
+`local.properties.example` 을 복사해 채우면 된다.
+
+```properties
+release.storeFile=~/mysticagit-upload.jks
+release.storePassword=...
+release.keyAlias=memoryhouse
+release.keyPassword=...   # PKCS12 키스토어는 storePassword 와 같다
+```
+
+키스토어와 비밀번호는 프로젝트 밖에 따로 백업한다. 분실하면 업데이트를 올릴 수 없다.
+
+키스토어가 없으면 서명 없이 빌드된다(다른 PC 에서도 빌드 자체는 깨지지 않게 하기 위함).
+
+### 업로드할 파일 만들기
+
+```bash
+./gradlew :app:bundleRelease     # app/build/outputs/bundle/release/app-release.aab
+```
+
+Play 는 신규 앱에 APK 가 아닌 **AAB** 를 요구한다.
+
+### 업데이트 절차
+
+1. `version.properties` 의 `versionCode` 를 1 올린다 (안 올리면 Play 가 업로드를 거부한다)
+2. `./gradlew :app:bundleRelease`
+3. Play Console → 내부 테스트 → 새 버전 만들기 → AAB 업로드 → 출시
+
+심사가 없어 몇 분 내 배포되고, 가족 단말은 Wi-Fi 환경에서 자동으로 받는다.
+
+> **주의**: 사이드로딩으로 설치해둔 기존 앱은 서명이 달라 Play 버전으로 업데이트되지 않는다.
+> 가족 단말에서 기존 앱을 **삭제한 뒤** Play 링크로 다시 설치해야 한다. 최초 1회만 겪으면 된다.
+
+> API 키에는 Android 앱 제한을 걸지 않았으므로(이 앱은 attestation 헤더를 보내지 않는다),
+> Play App Signing 으로 서명 키가 바뀌어도 영향이 없다. API 제한(Drive API 만)은 그대로 유효하다.
 
 ## 데이터 사용량
 

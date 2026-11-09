@@ -1,3 +1,4 @@
+import java.io.File
 import java.util.Properties
 
 plugins {
@@ -24,6 +25,18 @@ val versionProperties = Properties().apply {
 }
 val appVersionName: String = versionProperties.getProperty("versionName").trim()
 val appVersionCode: Int = versionProperties.getProperty("versionCode").trim().toInt()
+
+// 릴리즈 서명 키스토어. 경로와 비밀번호도 local.properties 에만 둔다(git 에 올라가지 않는다).
+// 키스토어가 없는 환경(다른 PC, CI)에서도 빌드 자체는 되도록 null 이면 서명을 건너뛴다.
+val releaseStoreFile: File? = secret("release.storeFile")
+    .takeIf { it.isNotBlank() }
+    ?.let { path ->
+        val expanded =
+            if (path.startsWith("~/")) System.getProperty("user.home") + path.removePrefix("~")
+            else path
+        File(expanded).let { if (it.isAbsolute) it else rootProject.file(expanded) }
+    }
+    ?.takeIf { it.isFile }
 
 android {
     namespace = "com.mysticagit.memoryhouse"
@@ -53,8 +66,21 @@ android {
         )
     }
 
+    signingConfigs {
+        if (releaseStoreFile != null) {
+            create("release") {
+                storeFile = releaseStoreFile
+                storePassword = secret("release.storePassword")
+                keyAlias = secret("release.keyAlias")
+                keyPassword = secret("release.keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            // 키스토어가 설정된 경우에만 서명한다. 없으면 서명되지 않은 산출물이 나온다.
+            signingConfig = signingConfigs.findByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

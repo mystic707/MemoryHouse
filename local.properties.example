@@ -1,0 +1,33 @@
+# Copy this file to local.properties and fill in the values.
+# local.properties is gitignored; never commit it.
+sdk.dir=/Users/<you>/Library/Android/sdk
+
+# --- MemoryHouse (ASCII only: Android Studio reads .properties as ISO-8859-1) ---
+# One block per album. The pin decides which album opens.
+# Album names are read from Drive (the root folder name), not stored here.
+# An album is enabled only when pin + apiKey + folderId are all filled.
+# Use a DIFFERENT pin for each album.
+
+# Album 1
+album1.pin=
+album1.apiKey=
+album1.folderId=
+
+# Album 2 -- fill these three to enable it.
+# Leave apiKey empty to reuse album1's key (fine when both folders are in the
+# same Google account). Set it only if album 2 lives in a different account.
+album2.pin=
+album2.apiKey=
+album2.folderId=
+
+# Optional: point the listing API at a local mock server for UI checks (debug only).
+#drive.apiBaseUrl=
+
+# --- Release signing (for Play Console upload) ---
+# Fill these in after creating the keystore. Keep the .jks file and these
+# passwords backed up: losing them means you cannot ship an update.
+# Leave empty and `bundleRelease` still builds, just unsigned.
+release.storeFile=
+release.storePassword=
+release.keyAlias=
+release.keyPassword=
